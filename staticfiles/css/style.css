@@ -1,0 +1,9 @@
+*{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+}
+.navbar{
+    /* background-color:rgb(73, 146, 255); */
+    color:white;
+}

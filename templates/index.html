@@ -118,7 +118,7 @@
       },
       getWeatherAPI() {
         axios
-          .get("http://localhost:8000/api/city/")
+          .get("http://weatherapp-ph.herokuapp.com/api/city/")
           .then((res) => {
             this.cities = res.data;
             this.weather = city_weather;
@@ -132,7 +132,7 @@
         };
         axios({
           method: "post",
-          url: "http://localhost:8000/api/city/",
+          url: "http://weatherapp-ph.herokuapp.com/api/city/",
           data: {
             name: this.name,
           },

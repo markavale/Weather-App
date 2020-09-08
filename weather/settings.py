@@ -14,7 +14,7 @@ SECRET_KEY = 'mgj-^c*_kqq#qei=ws0m&x2(z-$*ajos4m69f$$rx1w*$ou^p)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost:8000', 'weatherapp-ph.herokuapp.com']
 
 
 # Application definition
@@ -139,5 +139,5 @@ if os.getcwd() == '/app':
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
     # Allow all host headers
-    ALLOWED_HOSTS = ['weatherph.herokuapp.com'] # include your host name here!!
+    ALLOWED_HOSTS = ['weatherapp-ph.herokuapp.com'] # include your host name here!!
     DEBUG = False
