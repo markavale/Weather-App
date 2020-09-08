@@ -1,0 +1,156 @@
+{% extends 'base.html' %} {% load static %} {% block content %}
+<div class="container" id="App">
+  <form @submit.prevent="addCity">
+    <div class="form-group">
+      <label for="exampleInputEmail1">Add City</label>
+      <input type="input" v-model="name" class="form-control" id="" />
+      <small id="emailHelp" class="form-text text-muted"
+        >Type any city you'd like</small
+      >
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+  <div class="list-group mt-5">
+    <!-- <a href="#" class="list-group-item list-group-item-action active">
+          <div class="d-flex w-100 justify-content-between">
+            <h5 class="mb-1">List group item heading</h5>
+            <small>3 days ago</small>
+          </div>
+          <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
+          <small>Donec id elit non mi porta.</small>
+        </a> -->
+    <a href="#" class="list-group-item list-group-item-action">
+      <div class="d-flex w-100 justify-content-between">
+        <h5 class="mb-1" v-for="city in cities" :key="city.id">{city.name}</h5>
+        <small class="text-muted">3 days ago</small>
+      </div>
+      <p class="mb-1">
+        Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget
+        risus varius blandit.
+      </p>
+      <small class="text-muted">Donec id elit non mi porta.</small>
+    </a>
+
+    {% for city_weather in weather_data %}
+    <a href="#" class="list-group-item list-group-item-action">
+      <div class="d-flex w-100 justify-content-between">
+        <img
+          src="http://openweathermap.com/img/w/{{ city_weather.icon }}.png"
+          alt=""
+        />
+        <h5 class="mb-1">{{ city_weather.city }}</h5>
+        <small class="text-muted">3 days ago</small>
+      </div>
+      <p class="mb-1">{{ city_weather.description }}.</p>
+      <small class="text-muted">{{ city_weather.temperature }}</small>
+    </a>
+    {% endfor %}
+
+    <a href="#" class="list-group-item list-group-item-action">
+      <div class="d-flex w-100 justify-content-between">
+        <img
+          src="http://openweathermap.com/img/w/{{ city_weather.icon }}.png"
+          alt=""
+        />
+        <h5 class="mb-1">{{ city_weather.city }}</h5>
+        <small class="text-muted">3 days ago</small>
+      </div>
+      <p class="mb-1">{{ city_weather.description }}.</p>
+      <small class="text-muted">{{ city_weather.temperature }}</small>
+    </a>
+    <div>
+    </div>
+    <div
+      style="background-color: blue"
+      v-for="data in test_data"
+      :key="data.id"
+    >
+      { data.city } { data.temperature } { data.discription } { data.icon }
+      <!-- {test.message} -->
+    </div>
+    <div>{weather_data}</div>
+    {% for data in weather_data %}
+    {{ data.city }}
+    {{ data.temperature }}
+    {{ data.description }}
+    {{ data.icon }}
+    {% endfor %}
+  </div>
+</div>
+<!-- <script src="{% static 'js/vue.js' %}"></script> -->
+<script src="{% static 'js/vue.min.js' %}"></script> 
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="module">
+  const NYTBaseUrl = "https://api.nytimes.com/svc/topstories/v2/";
+  const ApiKey = "your_api_key";
+
+  function buildUrl(url) {
+    return NYTBaseUrl + url + ".json?api-key=" + ApiKey;
+  }
+
+  var app = new Vue({
+    el: "#App",
+    delimiters: ["{", "}"],
+    data: {
+      name: "",
+      cities: [],
+      weather_data: "{{weather_data}}",
+      test_data: [],
+      weather_obj: "{{weather_obj}}",
+    },
+    mounted() {
+      this.getWeatherAPI(), this.fetchAPI();
+      this.test_data = "{{weather_data}}";
+    },
+    methods: {
+      fetchAPI() {
+        const city = "Manila";
+        axios
+          .get(
+            `http://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=13417a3f4de1d1d1f86ccf8e6fd1277f`
+          )
+          .then((res) => {
+            console.log(res.data);
+
+            this.weather = res.data;
+            //console.log(city_weather);
+          });
+      },
+      getWeatherAPI() {
+        axios
+          .get("http://localhost:8000/api/city/")
+          .then((res) => {
+            this.cities = res.data;
+            this.weather = city_weather;
+            console.log(res.data);
+          })
+          .catch((err) => console.log(err));
+      },
+      addCity() {
+        const data = {
+          name: this.name,
+        };
+        axios({
+          method: "post",
+          url: "http://localhost:8000/api/city/",
+          data: {
+            name: this.name,
+          },
+          headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "content-type": "application/json",
+          },
+        })
+          .then((res) => {
+            console.log(res.data);
+            this.name = "";
+            this.getWeatherAPI();
+            this.fetchAPI();
+            //alert("Your message was sent successfully!");
+          })
+          .catch((err) => console.log(err));
+      },
+    },
+  });
+</script>
+{% endblock content %}
