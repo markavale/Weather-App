@@ -15,7 +15,7 @@ SECRET_KEY = 'mgj-^c*_kqq#qei=ws0m&x2(z-$*ajos4m69f$$rx1w*$ou^p)'
 DEBUG = False
 
 ALLOWED_HOSTS = ['projectweatherapi.herokuapp.com', 'www.projectweatherapi.herokuapp.com']
-# ALLOWED_HOSTS = []https://projectweatherapi.herokuapp.com/
+# ALLOWED_HOSTS = []#https://projectweatherapi.herokuapp.com/
 
 # Application definition
 
@@ -52,7 +52,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-                'whitenoise.middleware.WhiteNoiseMiddleware', #DJANGO WHITENOISE CONFIGURATION
+               'whitenoise.middleware.WhiteNoiseMiddleware', #django
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
