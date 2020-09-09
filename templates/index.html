@@ -29,7 +29,6 @@
             <div class="temp">{data.temperature}F<sup>&deg;</sup></div>
             <div class="row">
               <div class="col-12">
-                <div class="header">General</div>
                 <div class="value">{data.description}</div>
               </div>
             </div>
@@ -40,7 +39,6 @@
   </div>
 </div>
 
-<!-- {{ weather_data|json_script:"weather_data" }} -->
 
 <script src="{% static 'js/vue.js' %}"></script>
 <!-- <script src="{% static 'js/vue.min.js' %}"></script>  -->
@@ -51,9 +49,6 @@
   //var api_key = "13417a3f4de1d1d1f86ccf8e6fd1277f";
   var api_key = "f882fb1658025ca36144d0e9a23a5197";
 
-  //var weatherData = JSON.parse(
-  //document.getElementById("weather_data").textContent
-  //);
   var app = new Vue({
     el: "#App",
     delimiters: ["{", "}"],
@@ -114,7 +109,7 @@
           url: `${host_name_development}/api/city/weather/`,
           data: {
             city_name: this.weather_city_list.city,
-            temperature: this.weather_city_list.temperature,
+            temperature: (this.weather_city_list.temperature - 32)/1.80000,
             description: this.weather_city_list.description,
             icon: this.weather_city_list.icon,
           },
