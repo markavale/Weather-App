@@ -12,10 +12,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'mgj-^c*_kqq#qei=ws0m&x2(z-$*ajos4m69f$$rx1w*$ou^p)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-#ALLOWED_HOSTS = ['localhost:8000', 'weatherapp-ph.herokuapp.com', 'www.weatherapp-ph.herokuapp.com']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['projectweatherapi.herokuapp.com', 'www.projectweatherapi.herokuapp.com']
+# ALLOWED_HOSTS = []https://projectweatherapi.herokuapp.com/
 
 # Application definition
 
@@ -52,7 +52,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
-               #'whitenoise.middleware.WhiteNoiseMiddleware', #DJANGO WHITENOISE CONFIGURATION
+                'whitenoise.middleware.WhiteNoiseMiddleware', #DJANGO WHITENOISE CONFIGURATION
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -139,5 +139,5 @@ if os.getcwd() == '/app':
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
     # Allow all host headers
-    ALLOWED_HOSTS = ['weatherapp-ph.herokuapp.com'] # include your host name here!!
+    ALLOWED_HOSTS = ['projectweatherapi.herokuapp.com'] # include your host name here!!
     DEBUG = False

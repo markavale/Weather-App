@@ -26,7 +26,8 @@
             <div class="title">
               <p>{data.city_name}</p>
             </div>
-            <div class="temp">{data.temperature}F<sup>&deg;</sup></div>
+            <div class="temp">{data.temperature}F<!-- <sup>&deg;</sup> -->
+            </div>
             <div class="row">
               <div class="col-12">
                 <div class="value">{data.description}</div>
@@ -39,16 +40,15 @@
   </div>
 </div>
 
-
-<script src="{% static 'js/vue.js' %}"></script>
-<!-- <script src="{% static 'js/vue.min.js' %}"></script>  -->
+<!-- <script src="{% static 'js/vue.js' %}"></script> -->
+<script src="{% static 'js/vue.min.js' %}"></script> 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script type="module">
-  var host_name_production = "http://weatherapp-ph.herokuapp.com";
+  var host_name_production = "https://projectweatherapi.herokuapp.com";
   var host_name_development = "http://localhost:8000";
   //var api_key = "13417a3f4de1d1d1f86ccf8e6fd1277f";
   var api_key = "f882fb1658025ca36144d0e9a23a5197";
-
+  
   var app = new Vue({
     el: "#App",
     delimiters: ["{", "}"],
@@ -80,7 +80,7 @@
     methods: {
       getWeatherAPI() {
         axios
-          .get(`${host_name_development}/api/city/weather/`)
+          .get(`${host_name_production}/api/city/weather/`)
           .then((res) => {
             this.weathers = res.data;
             console.log("Get request from server success!!");
@@ -90,7 +90,7 @@
       },
       getCity() {
         axios
-          .get(`${host_name_development}/api/city/`)
+          .get(`${host_name_production}/api/city/`)
           .then((res) => {
             this.cities = res.data;
             let city_list = this.cities;
@@ -106,10 +106,10 @@
         console.log(this.weather_city_list);
         axios({
           method: "post",
-          url: `${host_name_development}/api/city/weather/`,
+          url: `${host_name_production}/api/city/weather/`,
           data: {
             city_name: this.weather_city_list.city,
-            temperature: (this.weather_city_list.temperature - 32)/1.80000,
+            temperature: this.weather_city_list.temperature,
             description: this.weather_city_list.description,
             icon: this.weather_city_list.icon,
           },
@@ -130,7 +130,7 @@
         };
         axios({
           method: "post",
-          url: `${host_name_development}/api/city/`,
+          url: `${host_name_production}/api/city/`,
           data: {
             name: this.name,
           },
@@ -173,7 +173,7 @@
             console.log(this.weather_city_list[0].icon);
             axios({
               method: "post",
-              url: `${host_name_development}/api/city/weather/`,
+              url: `${host_name_production}/api/city/weather/`,
               data: {
                 city_name: this.weather_city_list[0].city,
                 temperature: this.weather_city_list[0].temperature,
