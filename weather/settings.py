@@ -12,10 +12,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'mgj-^c*_kqq#qei=ws0m&x2(z-$*ajos4m69f$$rx1w*$ou^p)'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-# ALLOWED_HOSTS = ['projectweatherapi.herokuapp.com', 'www.projectweatherapi.herokuapp.com']
-ALLOWED_HOSTS = []#https://projectweatherapi.herokuapp.com/
+ALLOWED_HOSTS = ['projectweatherapi.herokuapp.com', 'www.projectweatherapi.herokuapp.com']
+# ALLOWED_HOSTS = []#https://projectweatherapi.herokuapp.com/
 
 # Application definition
 
