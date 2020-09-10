@@ -12,7 +12,13 @@
               placeholder="Add any city..."
             />
           </div>
-          <button class="main-search-button">ADD</button>
+          <button v-if="!loading" class="main-search-button">ADD</button>
+          <button v-else class="main-search-button">
+            <i
+              class="fa fa-circle-o-notch fa-spin"
+              style="font-size: 24px; color: white"
+            ></i>
+          </button>
         </div>
       </div>
     </div>
@@ -26,8 +32,7 @@
             <div class="title">
               <p>{data.city_name}</p>
             </div>
-            <div class="temp">{data.temperature}F<!-- <sup>&deg;</sup> -->
-            </div>
+            <div class="temp">{data.temperature}F<!-- <sup>&deg;</sup> --></div>
             <div class="row">
               <div class="col-12">
                 <div class="value">{data.description}</div>
@@ -44,11 +49,12 @@
 <script src="{% static 'js/vue.min.js' %}"></script> 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script type="module">
-  var host_name_production = "https://projectweatherapi.herokuapp.com";
+  var host_name_production = "http://projectweatherapi.herokuapp.com;
   var host_name_development = "http://localhost:8000";
+  var host_name = host_name_production;
   //var api_key = "13417a3f4de1d1d1f86ccf8e6fd1277f";
   var api_key = "f882fb1658025ca36144d0e9a23a5197";
-  
+
   var app = new Vue({
     el: "#App",
     delimiters: ["{", "}"],
@@ -56,6 +62,7 @@
       name: "",
       cities: [],
       weather_city_list: [],
+      loading:false,
       weathers: [],
     },
     mounted() {
@@ -79,7 +86,7 @@
     methods: {
       getWeatherAPI() {
         axios
-          .get(`${host_name_production}/api/city/weather/`)
+          .get(`${host_name}/api/city/weather/`)
           .then((res) => {
             this.weathers = res.data;
             console.log("Get request from server success!!");
@@ -89,7 +96,7 @@
       },
       getCity() {
         axios
-          .get(`${host_name_production}/api/city/`)
+          .get(`${host_name}/api/city/`)
           .then((res) => {
             this.cities = res.data;
             let city_list = this.cities;
@@ -105,7 +112,7 @@
         console.log(this.weather_city_list);
         axios({
           method: "post",
-          url: `${host_name_production}/api/city/weather/`,
+          url: `${host_name}/api/city/weather/`,
           data: {
             city_name: this.weather_city_list.city,
             temperature: this.weather_city_list.temperature,
@@ -127,9 +134,10 @@
         const data = {
           name: this.name,
         };
+        this.loading = true;
         axios({
           method: "post",
-          url: `${host_name_production}/api/city/`,
+          url: `${host_name}/api/city/`,
           data: {
             name: this.name,
           },
@@ -143,12 +151,12 @@
             //this.name = "";
             this.fetchServer();
             this.getCity();
+            this.loading = false;
             console.log("addCity works");
           })
           .catch((err) => console.log(err));
       },
       fetchServer() {
-
         axios
           .get(
             `http://api.openweathermap.org/data/2.5/weather?q=${this.name}&APPID=${api_key}`
@@ -173,7 +181,7 @@
             console.log(this.weather_city_list[0].icon);
             axios({
               method: "post",
-              url: `${host_name_production}/api/city/weather/`,
+              url: `${host_name}/api/city/weather/`,
               data: {
                 city_name: this.weather_city_list[0].city,
                 temperature: this.weather_city_list[0].temperature,
