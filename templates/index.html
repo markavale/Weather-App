@@ -10,9 +10,10 @@
               value=""
               v-model="name"
               placeholder="Add any city..."
+              
             />
           </div>
-          <button v-if="!loading" class="main-search-button">ADD</button>
+          <button v-if="!loading" :disabled="name.length== 0" class="main-search-button">ADD</button>
           <button v-else class="main-search-button">
             <i
               class="fa fa-circle-o-notch fa-spin"
@@ -46,11 +47,11 @@
 </div>
 
 <!-- <script src="{% static 'js/vue.js' %}"></script> -->
-<script src="{% static 'js/vue.min.js' %}"></script> 
+<script src="{% static 'js/vue.min.js' %}"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script type="module">
   var host_name_production = "https://projectweatherapi.herokuapp.com";
-  var host_name_development = "localhost:8000";
+  var host_name_development = "http://localhost:8000";
   var host_name = host_name_production;
   //var api_key = "13417a3f4de1d1d1f86ccf8e6fd1277f";
   var api_key = "f882fb1658025ca36144d0e9a23a5197";
@@ -65,10 +66,11 @@
       weather_obj: {
         city_name: null,
         description: null,
-        temperature:null,
-        icon:null,
+        temperature: null,
+        icon: null,
       },
-      loading:false,
+      empty: false,
+      loading: false,
       weathers: [],
     },
     mounted() {
@@ -137,7 +139,7 @@
           .catch((err) => console.log(err));
       },
       addCity() {
-        console.log("Start")
+        console.log("Start");
         const data = {
           name: this.name,
         };
@@ -173,8 +175,10 @@
             this.weather_obj.city_name = res.data.name;
             this.weather_obj.temperature = res.data.main.temp;
             this.weather_obj.description = res.data.weather[0].description;
-            this.weather_obj.icon = "http://openweathermap.org/img/w/" +
-            res.data.weather[0].icon + ".png";
+            this.weather_obj.icon =
+              "http://openweathermap.org/img/w/" +
+              res.data.weather[0].icon +
+              ".png";
 
             this.weather_city_list.push({
               city: res.data.name,
@@ -186,7 +190,7 @@
                 ".png",
             });
             this.name = "";
-            console.log("fetchServer works"); 
+            console.log("fetchServer works");
             console.log(this.weather_city_list);
             console.log(this.weather_city_list[0].city);
             console.log(this.weather_city_list[0].temperature);
