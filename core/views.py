@@ -1,11 +1,12 @@
 from django.shortcuts import render
 #import requests
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from .serializers import CitySerializer, WeatherSerializer
 from .models import City, Weather
 from django.conf import settings
+from rest_framework.permissions import AllowAny
 
 weather_api = settings.WEATHER_API_KEY
 
@@ -40,6 +41,7 @@ def index(request):
 #     }
 #     return render(request,'index.html', context)
 
+@permission_classes([AllowAny])
 @api_view(['GET', 'POST'])
 def city_create_view(request):
     # 13417a3f4de1d1d1f86ccf8e6fd1277f
@@ -56,6 +58,7 @@ def city_create_view(request):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+@permission_classes([AllowAny])
 @api_view(['GET', 'POST'])
 def list_creat_city_view(request):
     if request.method == 'GET':
