@@ -45,7 +45,7 @@ def index(request):
 @api_view(['GET', 'POST'])
 def city_create_view(request):
     # 13417a3f4de1d1d1f86ccf8e6fd1277f
-    url = 'api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=13417a3f4de1d1d1f86ccf8e6fd1277f'
+    #url = 'api.openweathermap.org/data/2.5/weather?q=London,uk&APPID=13417a3f4de1d1d1f86ccf8e6fd1277f'
     if request.method == 'GET':
         city = City.objects.all()
         serializer = CitySerializer(city, many=True)

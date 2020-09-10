@@ -62,6 +62,12 @@
       name: "",
       cities: [],
       weather_city_list: [],
+      weather_obj: {
+        city_name: null,
+        description: null,
+        temperature:null,
+        icon:null,
+      },
       loading:false,
       weathers: [],
     },
@@ -131,6 +137,7 @@
           .catch((err) => console.log(err));
       },
       addCity() {
+        console.log("Start")
         const data = {
           name: this.name,
         };
@@ -147,7 +154,8 @@
           },
         })
           .then((res) => {
-            console.log(res.data);
+            console.log("executing add city");
+            console.log(this.name);
             //this.name = "";
             this.fetchServer();
             this.getCity();
@@ -162,6 +170,12 @@
             `http://api.openweathermap.org/data/2.5/weather?q=${this.name}&APPID=${api_key}`
           )
           .then((res) => {
+            this.weather_obj.city_name = res.data.name;
+            this.weather_obj.temperature = res.data.main.temp;
+            this.weather_obj.description = res.data.weather[0].description;
+            this.weather_obj.icon = "http://openweathermap.org/img/w/" +
+            res.data.weather[0].icon + ".png";
+
             this.weather_city_list.push({
               city: res.data.name,
               temperature: res.data.main.temp,
@@ -172,22 +186,23 @@
                 ".png",
             });
             this.name = "";
-            console.log("fetchServer works");
-            console.log("executing post request to server.");
+            console.log("fetchServer works"); 
             console.log(this.weather_city_list);
             console.log(this.weather_city_list[0].city);
             console.log(this.weather_city_list[0].temperature);
             console.log(this.weather_city_list[0].description);
             console.log(this.weather_city_list[0].icon);
+            console.log("executing post request to server.");
             axios({
               method: "post",
               url: `${host_name}/api/city/weather/`,
               data: {
-                city_name: this.weather_city_list[0].city,
-                temperature: this.weather_city_list[0].temperature,
-                description: this.weather_city_list[0].description,
-                icon: this.weather_city_list[0].icon,
+                city_name: this.weather_obj.city_name,
+                temperature: this.weather_obj.temperature,
+                description: this.weather_obj.description,
+                icon: this.weather_obj.icon,
               },
+
               headers: {
                 "X-CSRFToken": "{{ csrf_token }}",
                 "content-type": "application/json",
@@ -196,6 +211,7 @@
               .then((res) => {
                 this.getWeatherAPI();
                 console.log("sendServer works");
+                console.log("END");
               })
               .catch((err) => console.log(err));
           })
