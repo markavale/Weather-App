@@ -184,14 +184,14 @@
       fetchServer() {
         axios
           .get(
-            `api.openweathermap.org/data/2.5/weather?q=${this.name}&APPID=${api_key}`
+            `https://api.openweathermap.org/data/2.5/weather?q=${this.name}&APPID=${api_key}`
           )
           .then((res) => {
             this.weather_obj.city_name = res.data.name;
             this.weather_obj.temperature = res.data.main.temp;
             this.weather_obj.description = res.data.weather[0].description;
             this.weather_obj.icon =
-              "api.openweathermap.org/img/w/" +
+              "https://api.openweathermap.org/img/w/" +
               res.data.weather[0].icon +
               ".png";
 
@@ -200,7 +200,7 @@
               temperature: res.data.main.temp,
               description: res.data.weather[0].description,
               icon:
-                "api.openweathermap.org/img/w/" +
+                "https://api.openweathermap.org/img/w/" +
                 res.data.weather[0].icon +
                 ".png",
             });
