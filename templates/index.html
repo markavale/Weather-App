@@ -109,7 +109,7 @@
     methods: {
       getWeatherAPI() {
         axios
-          .get(`${host_name}/api/city/weather/`)
+          .get(`/api/city/weather/`)
           .then((res) => {
             this.weathers = res.data;
             console.log("Get request from server success!!");
@@ -119,7 +119,7 @@
       },
       getCity() {
         axios
-          .get(`${host_name}/api/city/`)
+          .get(`/api/city/`)
           .then((res) => {
             this.cities = res.data;
             let city_list = this.cities;
@@ -135,7 +135,7 @@
         console.log(this.weather_city_list);
         axios({
           method: "post",
-          url: `${host_name}/api/city/weather/`,
+          url: `/api/city/weather/`,
           data: {
             city_name: this.weather_city_list.city,
             temperature: this.weather_city_list.temperature,
@@ -161,7 +161,7 @@
         this.loading = true;
         axios({
           method: "post",
-          url: `${host_name}/api/city/`,
+          url: `/api/city/`,
           data: {
             name: this.name,
           },
@@ -216,7 +216,7 @@
             console.log("executing post request to server.");
             axios({
               method: "post",
-              url: `${host_name}/api/city/weather/`,
+              url: `/api/city/weather/`,
               data: {
                 city_name: this.weather_obj.city_name,
                 temperature: this.weather_obj.temperature,
