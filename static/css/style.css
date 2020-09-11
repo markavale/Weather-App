@@ -8,9 +8,7 @@
     background-color:#f88f4d;
     color:white;
 }
-.red-line{
-    border-color:rgb(253, 118, 118);
-}
+
 #App{
     height: auto;
 }
@@ -35,8 +33,9 @@ body {
 }
 
 .weather-container {
-    margin-top:50px;
-    height: 80vh;
+    /* margin-top:50px; */
+    height: auto;
+    width:100%;
     background-color: transparent;
     border-color: #ffffff;
     align-items: center;
