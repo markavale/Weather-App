@@ -3,8 +3,8 @@ from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
-from .serializers import CitySerializer, WeatherSerializer
-from .models import City, Weather
+from .serializers import CitySerializer, WeatherSerializer, CoordinatesSerializer
+from .models import City, Weather, Coordinates
 from django.conf import settings
 from rest_framework.permissions import AllowAny
 
@@ -60,7 +60,7 @@ def city_create_view(request):
 
 @permission_classes([AllowAny])
 @api_view(['GET', 'POST'])
-def list_creat_city_view(request):
+def list_create_city_view(request):
     if request.method == 'GET':
         weathers = Weather.objects.all().order_by('-created_at')
         serializer = WeatherSerializer(weathers, many=True)
@@ -69,6 +69,24 @@ def list_creat_city_view(request):
     elif request.method == 'POST':
         serializer = WeatherSerializer(data=request.data)
         if serializer.is_valid():
+            #serializer.temperature = (serializer.temperature - 32) / 1.8000
+            print(serializer)
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@permission_classes([AllowAny])
+@api_view(['GET', 'POST'])
+def add_coordinates(request):
+    if request.method == 'GET':
+        coordinates = Coordinates.objects.all()
+        serializer = CoordinatesSerializer(coordinates, many=True)
+        return Response(serializer.data)
+
+    elif request.method == 'POST':
+        serializer = CoordinatesSerializer(data=request.data)
+        if serializer.is_valid():
+            print(serializer)
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
