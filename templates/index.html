@@ -1,23 +1,16 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 <div class="" id="App">
-  <div class="container">
+  <div class="container mb-5">
     <form @submit.prevent="addCity">
-      <div class="form-group">
+      <div class="">
         <div
           v-if="city_not_exist"
           class="alert alert-danger alert-dismissible fade show mt-4"
           role="alert"
+          style="width:50%; margin:0 auto; text-align:center;"
         >
-          Oooppss! Looks like <strong>{name}</strong> does not exist in the
+          Oooppss! Looks like that city does not exist in the
           world 😢.
-          <button
-            type="button"
-            class="close"
-            data-dismiss="alert"
-            aria-label="Close"
-          >
-            <span aria-hidden="true">&times;</span>
-          </button>
         </div>
         <div class="main-search-input-wrap">
           <div class="main-search-input fl-wrap">
@@ -48,29 +41,32 @@
       </div>
     </form>
   </div>
+  <div><br><br><br><br><br></div>
   <div class="container">
     <div class="widget" v-for="data in weathers">
-      <div class="left-panel panel">
-        <div class="date">Monday, 20 Aug 2018</div>
-        <div class="city">{data.city_name}, {data.country}</div>
-        <div class="temp">
-          <img :src="data.icon" alt="" width="60" />
-          {data.temperature}&deg;C
+      <div class="row">
+        <div class="col-8">
+          <div class="date">{data.created_at}</div>
+          <div class="city">{data.city_name}, {data.country}</div>
         </div>
-        <div class="city">{data.description}</div>
-        <div class="coordinates">Latitude:{data.lat}
-          <br>Longtitude: {data.lon}
+        <div class="col-4">
+          <img :src="data.icon" alt="" class="weather-icon" />
         </div>
+      </div>
+
+      <div class="temp">{data.temperature}&deg;C</div>
+      <div class="city">{data.description}</div>
+      <div class="coordinates">
+        Latitude:{data.lat} <br />Longtitude: {data.lon}
       </div>
     </div>
   </div>
 </div>
-
-<!-- <script src="{% static 'js/vue.js' %}"></script> -->
-<script src="{% static 'js/vue.min.js' %}"></script>
+<script src="{% static 'js/vue.js' %}"></script>
+<!-- <script src="{% static 'js/vue.min.js' %}"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script></script>
 <script type="module">
+  //import moment from 'moment'
   //var api_key = "13417a3f4de1d1d1f86ccf8e6fd1277f";
   var api_key = "f882fb1658025ca36144d0e9a23a5197";
 
@@ -85,7 +81,7 @@
         lon: null,
       },
       weather_obj: {
-        country:null,
+        country: null,
         city_name: null,
         description: null,
         temperature: null,
@@ -97,13 +93,11 @@
       empty: false,
       loading: false,
       weathers: [],
-      //leaflet
-      map: null,
     },
+
     mounted() {
       this.getCity();
       this.getWeatherAPI();
-      //this.initMap();
       console.log("Component mounted");
     },
     beforeMount() {
@@ -120,17 +114,6 @@
       },
     },
     methods: {
-      initMap() {
-        this.map = L.map("mapContainer").setView(
-          [this.weather_obj.lat, this.weather_obj.lon],
-          13
-        );
-        L.tileLayer("http://{s}.tile.osm.org/{z}/{x}/{y}.png", {
-          attribution:
-            '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
-        }).addTo(this.map);
-        console.log(this.map);
-      },
       getWeatherAPI() {
         axios
           .get(`/api/city/weather/`)
@@ -138,7 +121,6 @@
             this.weathers = res.data;
             console.log("test");
             console.log(this.weather_obj.city_name);
-            this.initMap();
             console.log("Get request from server success!!");
             console.log(this.weathers);
           })
@@ -148,7 +130,6 @@
         axios
           .get(`/api/city/`)
           .then((res) => {
-            this.initMap();
             this.cities = res.data;
             let city_list = this.cities;
             console.log(city_list);
@@ -189,6 +170,7 @@
           .catch((err) => console.log(err));
       },
       fetchServer() {
+        this.city_not_exist = false;
         axios
           .get(
             `https://api.openweathermap.org/data/2.5/weather?q=${this.name}&units=imperial&APPID=${api_key}`
@@ -217,7 +199,7 @@
               method: "post",
               url: `/api/city/weather/`,
               data: {
-                country:this.weather_obj.country,
+                country: this.weather_obj.country,
                 city_name: this.weather_obj.city_name,
                 temperature: this.weather_obj.temperature,
                 description: this.weather_obj.description,
@@ -231,7 +213,6 @@
               },
             })
               .then((res) => {
-                //this.map = null;
                 this.getWeatherAPI();
                 console.log(this.map);
                 console.log("sendServer works");

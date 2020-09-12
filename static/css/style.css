@@ -5,17 +5,14 @@
 }
 .navbar{
     /* background-color:rgb(73, 146, 255); */
-    background-color:#f88f4d;
+    background-color:#16314b;
     color:white;
 }
-#mapid{
-    height: 180px;
-    width:100%;
+.nav-item > a{
+    color:white;
+    font-size:20px;
+
 }
-.map {
-     height: 180px;
-     width:100%; 
-    }
 #App{
     height: auto;
 }
@@ -29,31 +26,21 @@
 }
 /* weather cards */
 body {
-    /* min-height: 100vh; */
-    /* display: flex; */
-    /* align-items: center; */
     justify-content: center;
-    /* background-color: rgba(238, 237, 237, 0.33); */
     background-color: #8f4df8;
     color: rgb(105, 104, 104);
-    /* font-family: sans-serif */
     font-family: 'Roboto', sans-serif;
 }
 
-/* body
-{
-  font-family: 'Roboto', sans-serif;
-  overflow: hidden;
-  background: #d22222;;
-} */
 
 div.widget
 {
-  position: relative;
+  /* position: relative; */
   width: 50%;
   height: auto;
   margin: 20px auto;
-  background-color: #fcfdfd;
+  /* background-color: #fcfdfd; */
+  background-color:#16314b;
   border-radius: 9px;
   padding: 25px;
   padding-right: 30px;
@@ -63,7 +50,8 @@ div.date
 {
   font-size: 14px;
   font-weight: bold;
-  color: rgba(0,0,0,0.5);
+  /* color: rgba(0,0,0,0.5); */
+  color:white;
 }
 
 div.city
@@ -72,16 +60,27 @@ div.city
   font-weight: bold;
   text-transform: uppercase;
   padding-top: 5px;
-  color: rgba(0,0,0,0.7);
+  /* color: rgba(0,0,0,0.7); */
+  color:white;
 }
-
+.coordinates{
+    color:white;
+    font-weight: 500;
+}
 div.temp
 {
   font-size: 81px;
-  color: rgba(0,0,0,0.9);
+  /* color: rgba(0,0,0,0.9); */
+  color:white;
   font-weight: 100;
+  text-align:center;
 }
-
+.weather-icon{
+    height:auto;
+    width:auto;
+    float:right;
+    padding:auto 0;
+}
 div.panel
 {
   display: inline-block;
